@@ -24,7 +24,6 @@ namespace HelixBoss.Test.ApiService
 
             _mockSet.Verify(m => m.Remove(It.IsAny<Product>()), Times.Once());
             _dbContextMock.Verify(m => m.SaveChangesAsync(default(CancellationToken)), Times.Once());
-
         }
     }
 }

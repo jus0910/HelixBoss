@@ -26,15 +26,12 @@ namespace HelixBoss.Test.ApiService
             localView.As<IQueryable<Product>>().Setup(m => m.Expression).Returns(products.Expression);
             localView.As<IQueryable<Product>>().Setup(m => m.ElementType).Returns(products.ElementType);
             localView.As<IQueryable<Product>>().Setup(m => m.GetEnumerator()).Returns(products.GetEnumerator());
-
             Setup();
-
 
             _dbContextMock.Setup(ctx => ctx.Products).Returns(_mockSet.Object);
             _dbContextMock.Setup(ctx => ctx.SaveChangesAsync(default(CancellationToken)))
                 .ReturnsAsync(1).Verifiable();
-
-            _mockSet.Setup(ctx => ctx.Local.ToObservableCollection()).Returns(localView.Object.ToObservableCollection());
+            _dbContextMock.Setup(ctx => ctx.Set<Product>()).Returns(_mockSet.Object);
 
             var service = new ProductService(_dbContextMock.Object);
             var result = service.UpdateAsync(prd).Result;

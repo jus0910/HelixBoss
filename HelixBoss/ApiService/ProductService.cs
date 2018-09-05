@@ -55,8 +55,8 @@ namespace HelixBoss.ApiService
 
         public async Task<Product> UpdateAsync(Product entity)
         {
-            var local = _context.Set<Product>()
-                .Local
+            Product local = _context.Set<Product>()
+                .Local?
                 .FirstOrDefault(entry => entry.Id.Equals(entity.Id));
 
             if (local != null)
